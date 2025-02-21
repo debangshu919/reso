@@ -8,7 +8,7 @@ const path = require('path');
 const mongodbURL = config.database.mongodbUrl;
 const fs = require('fs')
 
-const errorsDir = path.join(__dirname, '../../../errors'); 
+const errorsDir = path.join(__dirname, '../../../errors');
 function ensureErrorDirectoryExists() {
     if (!fs.existsSync(errorsDir)) {
         fs.mkdirSync(errorsDir);
@@ -20,10 +20,10 @@ function logErrorToFile(error) {
 
     // Convert the error object into a string, including the stack trace
     const errorMessage = `${error.name}: ${error.message}\n${error.stack}`;
-    
+
     const fileName = `${new Date().toISOString().replace(/:/g, '-')}.txt`;
     const filePath = path.join(errorsDir, fileName);
-    
+
     fs.writeFileSync(filePath, errorMessage, 'utf8');
 }
 
@@ -46,7 +46,7 @@ module.exports = {
                 console.log(chalk.red.bold('ERROR: ') + 'Failed to connect to MongoDB. Please check your MongoDB URL and connection.');
                 console.error(error);
                 logErrorToFile(error);
-                
+
             }
         }
 
@@ -54,10 +54,10 @@ module.exports = {
 
         client.user.setPresence({
             activities: [{
-                type: ActivityType.Custom,
-                name: "custom",
-                state: "🚀 discobase!"
-            }]
+                type: ActivityType.Listening,
+                name: "your music 🎶",
+            }],
+            status: "dnd",
         })
         prefixHandler(client, path.join(process.cwd(), 'src/messages'));
         handleCommands(client, path.join(process.cwd(), 'src/commands'));
